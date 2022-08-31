@@ -1,4 +1,4 @@
-package com.platzi.functional._02_sideeffects;
+package com.arroyo.biblioteca_online.utilidad;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,10 +9,10 @@ public class CrearSQL {
     public static void main(String[] args) throws IOException {
 
 		//File es para leer un archivo
-        File entrada = new File("C:\\proyecto_spring\\codigo_y_pais.txt"); 
+        File entrada = new File("codigo_y_pais.txt");
 		
 		//FileWriter es para escribir en un archivo el true al final es para que añada la informcion sin borrar la informacion que hay
-        FileWriter salida = new FileWriter("C:\\proyecto_spring\\Insert_en_tabla_lenguaje.sql", true); 
+        FileWriter salida = new FileWriter("Insert_en_tabla_lenguaje.sql", true);
 
 		//puedes leer en: https://www.w3schools.com/java/java_files_create.asp para mas informacion
 		
