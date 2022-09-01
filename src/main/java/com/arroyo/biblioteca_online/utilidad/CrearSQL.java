@@ -8,14 +8,14 @@ import java.util.Scanner;
 public class CrearSQL {
     public static void main(String[] args) throws IOException {
 
-		//File es para leer un archivo
+        //File es para leer un archivo
         File entrada = new File("codigo_y_pais.txt");
-		
-		//FileWriter es para escribir en un archivo el true al final es para que añada la informcion sin borrar la informacion que hay
+
+        //FileWriter es para escribir en un archivo el true al final es para que añada la informcion sin borrar la informacion que hay
         FileWriter salida = new FileWriter("Insert_en_tabla_lenguaje.sql", true);
 
-		//puedes leer en: https://www.w3schools.com/java/java_files_create.asp para mas informacion
-		
+        //puedes leer en: https://www.w3schools.com/java/java_files_create.asp para mas informacion
+
         Scanner myReader = new Scanner(entrada);
 
         while (myReader.hasNextLine()) {

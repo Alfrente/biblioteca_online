@@ -3,7 +3,7 @@ use biblioteca;
 
 CREATE TABLE IF NOT EXISTS autor(
 autor_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT "Identificador único de la tabla",
-nombre VARCHAR(100) NOT NULL COMMENT "Nombre de el autor de el libro",
+nombre VARCHAR(100) NOT NULL UNIQUE COMMENT "Nombre de el autor de el libro", -- ***********
 nacionalidad VARCHAR(3) COMMENT "Nacionalidad de el autor de el libro"
 );
 
