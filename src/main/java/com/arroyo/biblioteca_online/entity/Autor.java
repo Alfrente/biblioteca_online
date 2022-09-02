@@ -22,6 +22,12 @@ public class Autor {
         this.nacionalidad = nacionalidad;
     }
 
+    public Autor(Integer id, String nombre, String nacionalidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+    }
+
     public String getNacionalidad() {
         return nacionalidad;
     }

@@ -1,20 +1,27 @@
 package com.arroyo.biblioteca_online.dao;
 
-import com.arroyo.biblioteca_online.dto.AutorDto;
 import com.arroyo.biblioteca_online.entity.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Repository
 public interface IAutorDao extends JpaRepository<Autor, Integer> {
 
-    Autor findFirstByNombre(String nombre); //PARA TRAER UN DATO ES first or top
+    Optional<Autor> findFirstByNombre(String nombre); //PARA TRAER UN DATO ES first or top
 
-    @Query(value = "SELECT a.autor_id, a.nombre, l.pais as nacionalidad FROM autor a join lenguaje l on a.nacionalidad =?1 and l.codigo = ?2", nativeQuery = true)
-    Autor buscarAutorNombre(@Param("nacionalidad") String nombre, @Param("codigo") String codigo_pais);
+    @Transactional
+    @Query(value = "CALL guardarAutorDevolverConNombrePais(?1, ?2)", nativeQuery = true)
+    Autor guardarAutorDevolverConNombrePais(@Param("nombre") String nombre, @Param("nacionalidad") String nacionalidad);
 
-    @Query(value = "SELECT * FROM biblioteca.autores", nativeQuery = true)
-    Autor ver();
+    @Query(value = "CALL buscarAutorConNombrePais(?1, ?2);", nativeQuery = true)
+    Autor proAlmacenadoBuscarAutorConNombrePais(@Param("nacionalidad") String nacionalidad, @Param("nombre") String nombre);
+
+    @Transactional
+    @Query(value = "CALL eliminarAutorConNombre(?1); ", nativeQuery = true)
+    void deleteByNombre(@Param("nombre") String nombre);
 }
