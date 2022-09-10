@@ -1,5 +1,4 @@
-SELECT * FROM biblioteca.autor;
-
+-- ******************** **** Tabla Autor **** ******************** --
 delimiter //
 CREATE PROCEDURE verAutorConPais (
 IN pNacionalidad VARCHAR(51), 
@@ -18,10 +17,7 @@ END
 //
 delimiter ;
 
-SELECT a.autor_id, a.nombre, l.pais AS nacionalidad FROM autor a JOIN lenguaje l ON a.nacionalidad ="CN" AND l.codigo = "CN" WHERE nombre = "ftfy" LIMIT 1;
-
-INSERT INTO autor(nombre, nacionalidad) VALUES ("Arroyo", "GF");
-
-CALL verAutorConPais("GF", "AA");
-
-CALL eliminarAutorConNombre("asssdfr");
+-- ******************** **** Tabla  cliente **** ******************** --
+/*fecha_nacimiento
+-- creado datos que puedo no pasar en insert
+-- actualizado*/

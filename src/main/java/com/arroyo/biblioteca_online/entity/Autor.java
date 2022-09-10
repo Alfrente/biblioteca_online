@@ -1,16 +1,19 @@
 package com.arroyo.biblioteca_online.entity;
 
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "autor")
-public class Autor {
+public class Autor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "autor_id")
     private Integer id;
+
+    //@NotNull(message = "El nombre no puede ser Nulo")
     private String nombre;
     private String nacionalidad;
 
@@ -59,5 +62,18 @@ public class Autor {
                 ", nombre='" + nombre + '\'' +
                 ", nacionalidad='" + nacionalidad + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Autor autor = (Autor) o;
+        return Objects.equals(id, autor.id) && Objects.equals(nombre, autor.nombre) && Objects.equals(nacionalidad, autor.nacionalidad);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, nacionalidad);
     }
 }

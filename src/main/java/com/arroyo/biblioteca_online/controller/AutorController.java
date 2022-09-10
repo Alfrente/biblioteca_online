@@ -4,6 +4,7 @@ import com.arroyo.biblioteca_online.dto.AutorDto;
 import com.arroyo.biblioteca_online.entity.Autor;
 import com.arroyo.biblioteca_online.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +55,14 @@ public class AutorController {
     }
 
     @RequestMapping(value = "/guardarAutorDevolverConNombrePais/{nombre}/{nacionalidad}")
-    public AutorDto guardarAutorDevolverConNombrePais(@PathVariable("nombre") String nombre, @PathVariable("nacionalidad") String nacionalidad) {
-        return autorService.guardarAutorDevolverConNombrePais(nombre, nacionalidad);
+    public ResponseEntity<AutorDto> guardarAutorDevolverConNombrePais(@PathVariable("nombre") String nombre, @PathVariable("nacionalidad") String nacionalidad) {
+        return new ResponseEntity<>(autorService.guardarAutorDevolverConNombrePais(nombre, nacionalidad), HttpStatus.OK);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<AutorDto> actualizarAutor(@PathVariable Integer id, @RequestBody Autor autor) {
+        return new ResponseEntity<>(autorService.actualizarAutor(id, autor), HttpStatus.OK);
     }
 
 }

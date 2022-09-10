@@ -18,10 +18,8 @@ public interface IAutorDao extends JpaRepository<Autor, Integer> {
     @Query(value = "CALL guardarAutorDevolverConNombrePais(?1, ?2)", nativeQuery = true)
     Autor guardarAutorDevolverConNombrePais(@Param("nombre") String nombre, @Param("nacionalidad") String nacionalidad);
 
+    @Transactional
     @Query(value = "CALL buscarAutorConNombrePais(?1, ?2);", nativeQuery = true)
     Autor proAlmacenadoBuscarAutorConNombrePais(@Param("nacionalidad") String nacionalidad, @Param("nombre") String nombre);
 
-    @Transactional
-    @Query(value = "CALL eliminarAutorConNombre(?1); ", nativeQuery = true)
-    void deleteByNombre(@Param("nombre") String nombre);
 }

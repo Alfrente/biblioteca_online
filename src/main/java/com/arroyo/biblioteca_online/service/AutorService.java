@@ -5,13 +5,16 @@ import com.arroyo.biblioteca_online.dto.AutorDto;
 import com.arroyo.biblioteca_online.entity.Autor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import static com.arroyo.biblioteca_online.datos_esticos.DatosEstaticos.*;
+import static com.arroyo.biblioteca_online.datos_esticos.DatosEstaticos.validarLetras;
+import static com.arroyo.biblioteca_online.datos_esticos.DatosEstaticos.validarLetrasConEspacios;
 
 @Service
 public class AutorService {
@@ -22,24 +25,25 @@ public class AutorService {
     public List<AutorDto> getAll() {
         List<Autor> autores = iAutorDao.findAll();
         if (autores != null && (!autores.isEmpty())) {
-            return autores.stream().map(autor -> new AutorDto(autor)).collect(Collectors.toList());
+            return autores.stream().map(autor -> new AutorDto(autorEnMayuscula(autor))).collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
     }
 
+    @Transactional
     public AutorDto save(Autor dato) {
         Optional<Autor> autorTraido;
-        if (validarUsuario(dato)) {
+        if (validarAutor(dato)) {
             autorTraido = iAutorDao.findFirstByNombre(dato.getNombre());
 
             if (autorTraido.isEmpty()) {
                 dato.getNombre().toUpperCase();
                 dato.getNacionalidad().toUpperCase();
-                Autor autor = iAutorDao.save(dato);
-                return new AutorDto(autor);
+                Autor autor = iAutorDao.save(autorEnMayuscula(dato));
+                return new AutorDto(autorEnMayuscula(autor));
             } else {
-                return new AutorDto(autorTraido.get());
+                return new AutorDto(autorEnMayuscula(autorTraido.get()));
             }
         } else {
             return new AutorDto();
@@ -50,7 +54,7 @@ public class AutorService {
         if (nombre != null && nombre.matches(validarLetras)) {
             Autor autor = iAutorDao.findFirstByNombre(nombre).get();
             if (autor != null && (!autor.getNombre().isBlank())) {
-                return new AutorDto(autor);
+                return new AutorDto(autorEnMayuscula(autor));
             } else {
                 return new AutorDto();
             }
@@ -63,7 +67,7 @@ public class AutorService {
         if (id != null && id > 0) {
             Optional<Autor> autor = iAutorDao.findById(id);
             if (autor.isPresent()) {
-                return autor.map(autor1 -> new AutorDto(autor1));
+                return autor.map(autor1 -> new AutorDto(autorEnMayuscula(autor1)));
             } else {
                 return Optional.empty();
             }
@@ -76,7 +80,7 @@ public class AutorService {
         if (nacionalidad != null && nombre != null && nacionalidad.matches(validarLetrasConEspacios) && nombre.matches(validarLetras)) {
             Autor autor = iAutorDao.proAlmacenadoBuscarAutorConNombrePais(nacionalidad, nombre);
             if (autor != null && autor.getId() != null && autor.getId() > 0) {
-                return new AutorDto(autor);
+                return new AutorDto(autorEnMayuscula(autor));
             } else {
                 return new AutorDto();
             }
@@ -85,12 +89,13 @@ public class AutorService {
         }
     }
 
+    @Transactional
     public AutorDto deleteById(Integer id) {
         if (id != null && id > 0) {
             Optional<Autor> autor = iAutorDao.findById(id);
             if (autor.isPresent()) {
                 iAutorDao.deleteById(id);
-                return new AutorDto(autor.get());
+                return new AutorDto(autorEnMayuscula(autor.get()));
             } else {
                 return new AutorDto();
             }
@@ -99,12 +104,13 @@ public class AutorService {
         }
     }
 
+    @Transactional
     public AutorDto deleteByNombre(String nombre) {
         if (nombre.matches(validarLetras)) {
             Autor autor = iAutorDao.findFirstByNombre(nombre).get();
             if (autor != null) {
                 iAutorDao.deleteById(autor.getId());
-                return new AutorDto(autor);
+                return new AutorDto(autorEnMayuscula(autor));
             } else {
                 return new AutorDto();
             }
@@ -113,26 +119,49 @@ public class AutorService {
         }
     }
 
+
     public AutorDto guardarAutorDevolverConNombrePais(String nombre, String nacionalidad) {
         Optional<Autor> usuarioTraido;
+
         if (nombre.matches(validarLetras) && nacionalidad.matches(validarLetrasConEspacios)) {
             usuarioTraido = iAutorDao.findFirstByNombre(nombre);
             if (!usuarioTraido.isPresent()) {
                 Autor autor = iAutorDao.guardarAutorDevolverConNombrePais(nombre.toUpperCase(), nacionalidad.toLowerCase());
-                return new AutorDto(autor);
+                return new AutorDto(autorEnMayuscula(autor));
             } else {
-                return new AutorDto(usuarioTraido.get());
+                return new AutorDto(autorEnMayuscula(usuarioTraido.get()));
             }
-        } else {
-            return new AutorDto();
         }
+        return new AutorDto();
     }
 
-    private boolean validarUsuario(Autor dato) {
+    ;
+
+
+    public AutorDto actualizarAutor(Integer id, Autor autor) {
+        if (validarAutor(autor) && id != null && id > 0) {
+            Optional<Autor> idAutor = Optional.ofNullable(iAutorDao.findById(id).orElse(null));
+            if (idAutor.isPresent()) {
+                autor.setId(id);
+                return new AutorDto(iAutorDao.save(autorEnMayuscula(autor)));
+            } else {
+                return new AutorDto();
+            }
+        }
+        return new AutorDto();
+    }
+
+    private boolean validarAutor(Autor dato) {
         if (dato != null && dato.getNombre() != null && (!dato.getNombre().isBlank()) && dato.getNacionalidad() != null && (!dato.getNacionalidad().isBlank())) {
             return true;
         } else {
             return false;
         }
+    }
+
+    private Autor autorEnMayuscula(Autor autor) {
+        autor.getNombre().toUpperCase();
+        autor.getNacionalidad().toUpperCase();
+        return autor;
     }
 }

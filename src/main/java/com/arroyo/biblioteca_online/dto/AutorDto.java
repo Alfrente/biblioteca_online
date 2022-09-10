@@ -14,15 +14,15 @@ public class AutorDto implements Serializable {
     }
 
     public AutorDto(Autor autor) {
-        this.numero = autor.getId();
-        this.nombre = autor.getNombre();
-        this.pais = autor.getNacionalidad();
-    }
 
-    public AutorDto(Integer numero, String nombre, String pais) {
-        this.numero = numero;
-        this.nombre = nombre;
-        this.pais = pais;
+        this.numero = autor.getId();
+
+        if (autor.getNombre() != null) {
+            this.nombre = autor.getNombre().toUpperCase();
+        }
+        if (autor.getNacionalidad() != null) {
+            this.pais = autor.getNacionalidad().toUpperCase();
+        }
     }
 
     public Integer getNumero() {
