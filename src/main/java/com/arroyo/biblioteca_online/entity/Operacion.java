@@ -1,15 +1,13 @@
 package com.arroyo.biblioteca_online.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "operacion")
 public class Operacion {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "operacion_id")
     private Integer id;
     private Integer libro_id;

@@ -1,21 +1,19 @@
 package com.arroyo.biblioteca_online.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "libro")
 public class Libro {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "libro_id")
     private Integer id;
     private Integer autor_id;
     private String titulo;
     @Column(name = "año_publicado")
-    private LocalDate ano_publicado;
+    private Long ano_publicado;
     private String lenguaje;
     private String portada_url;
     private Double precio;
@@ -23,8 +21,8 @@ public class Libro {
     private Integer copias;
     private String descripcion;
 
-    public Libro() {
-    }
+    @OneToMany(mappedBy = "libro")
+    private List<Autor> autores;
 
     public Integer getId() {
         return id;
@@ -50,11 +48,11 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public LocalDate getAno_publicado() {
+    public Long getAno_publicado() {
         return ano_publicado;
     }
 
-    public void setAno_publicado(LocalDate ano_publicado) {
+    public void setAno_publicado(Long ano_publicado) {
         this.ano_publicado = ano_publicado;
     }
 
@@ -98,11 +96,19 @@ public class Libro {
         this.copias = copias;
     }
 
-    public String getDecripcio() {
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDecripcio(String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
     }
 }

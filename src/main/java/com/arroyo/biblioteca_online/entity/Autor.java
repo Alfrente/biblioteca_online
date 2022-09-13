@@ -2,20 +2,21 @@ package com.arroyo.biblioteca_online.entity;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "autor")
-public class Autor implements Serializable {
+public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "autor_id")
     private Integer id;
-
-    //@NotNull(message = "El nombre no puede ser Nulo")
     private String nombre;
     private String nacionalidad;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id", insertable = false, updatable = false)
+    private Libro libro;
 
     public Autor() {
     }
@@ -28,14 +29,6 @@ public class Autor implements Serializable {
     public Autor(Integer id, String nombre, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
-        this.nacionalidad = nacionalidad;
-    }
-
-    public String getNacionalidad() {
-        return nacionalidad;
-    }
-
-    public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
 
@@ -53,6 +46,22 @@ public class Autor implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public Libro getLibro() {
+        return libro;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
     }
 
     @Override

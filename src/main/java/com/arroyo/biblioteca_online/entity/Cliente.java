@@ -1,22 +1,20 @@
 package com.arroyo.biblioteca_online.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "cliente")
 public class Cliente {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cliente_id")
     private Integer id;
     private String nombre;
     private String correo;
     @Column(name = "fecha_nacimiento")
     private LocalDateTime fechaNacimiento;
-    private Enum genero;
+    private Character genero;
     private Byte activo;
     private LocalDateTime creado;
     private LocalDateTime actualizado;
@@ -56,11 +54,11 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Enum getGenero() {
+    public Character getGenero() {
         return genero;
     }
 
-    public void setGenero(Enum genero) {
+    public void setGenero(Character genero) {
         this.genero = genero;
     }
 

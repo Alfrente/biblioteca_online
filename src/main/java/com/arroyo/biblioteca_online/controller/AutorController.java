@@ -4,7 +4,6 @@ import com.arroyo.biblioteca_online.dto.AutorDto;
 import com.arroyo.biblioteca_online.entity.Autor;
 import com.arroyo.biblioteca_online.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

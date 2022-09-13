@@ -1,4 +1,4 @@
-package com.arroyo.biblioteca_online.dao;
+package com.arroyo.biblioteca_online.repository;
 
 import com.arroyo.biblioteca_online.entity.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface IAutorDao extends JpaRepository<Autor, Integer> {
+public interface IAutorRepository extends JpaRepository<Autor, Integer> {
 
     Optional<Autor> findFirstByNombre(String nombre); //PARA TRAER UN DATO ES first or top
 

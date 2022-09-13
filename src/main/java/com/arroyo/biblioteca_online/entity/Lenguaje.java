@@ -7,6 +7,7 @@ import java.util.List;
 @Table(name = "lenguaje")
 public class Lenguaje {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lenguaje_id")
     private Integer id;
     private String codigo;

@@ -2,9 +2,7 @@ package com.arroyo.biblioteca_online.dto;
 
 import com.arroyo.biblioteca_online.entity.Autor;
 
-import java.io.Serializable;
-
-public class AutorDto implements Serializable {
+public class AutorDto {
     private Integer numero;
     private String nombre;
 
@@ -14,15 +12,9 @@ public class AutorDto implements Serializable {
     }
 
     public AutorDto(Autor autor) {
-
         this.numero = autor.getId();
-
-        if (autor.getNombre() != null) {
-            this.nombre = autor.getNombre().toUpperCase();
-        }
-        if (autor.getNacionalidad() != null) {
-            this.pais = autor.getNacionalidad().toUpperCase();
-        }
+        this.nombre = autor.getNombre().toUpperCase();
+        this.pais = autor.getNacionalidad().toUpperCase();
     }
 
     public Integer getNumero() {
@@ -41,11 +33,11 @@ public class AutorDto implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getNacionalidad() {
+    public String getPais() {
         return pais;
     }
 
-    public void setNacionalidad(String pais) {
+    public void setPais(String pais) {
         this.pais = pais;
     }
 
